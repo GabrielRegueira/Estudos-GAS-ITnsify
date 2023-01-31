@@ -69,11 +69,46 @@ function editDocument(){
     par2.setHeading(DocumentApp.ParagraphHeading.HEADING6);
 }
 
-function bReplace(){ 
+function Replace(){ 
     var body = DocumentApp.openById("1xPhcLo1O4aOGmLYwkKLRemaYSoIJseQdrXy3NKlJEX4");
-    var stringReplace = body.getBlob().getDataAsString().replace('Item', 'Ponto');
-    return stringReplace;
-
-  
+    var text = body.getBody().getText();
+    console.log(text);
+    // replace all instances of "Item" with "Ponto"
+    var newText = text.replace(/Item/g, "Ponto");
+    body.getBody().setText(newText);
 }
+
+function captureRelatorio() {
+    var doc = DocumentApp.openById("1xPhcLo1O4aOGmLYwkKLRemaYSoIJseQdrXy3NKlJEX4");
+    var text = doc.getBody().getText();
+    var searchResult = doc.getBody().findText("Relatório");
+    var start = searchResult.getStartOffset();
+    var a = text.substring(0,start);
+    console.log(start);
+    console.log(a);
+}
+
+function insetImage(){
+    var body = DocumentApp.openById("1xPhcLo1O4aOGmLYwkKLRemaYSoIJseQdrXy3NKlJEX4");
+    // var paragraph = body.appendParagraph("A imagem entrará aqui");
+    var image = DriveApp.getFileById('10cRwhFwPpUmGAw-ClM6Plt4eGnxxXPhH').getBlob();
+    var posImage = paragraph.addPositionedImage(image)
+    // .setTopOffset(10)
+    // .setLeftOffset(20);
+}
+
+function table(){
+    var body = DocumentApp.openById("1xPhcLo1O4aOGmLYwkKLRemaYSoIJseQdrXy3NKlJEX4");
+    var cells = [
+        ['Coluna 1 , Linha 1', 'Coluna 2, Linha 1'],
+        ['Coluna 1, Linha 2', 'Coluna 2 , Linha 2'],
+        ['Coluna 1, Linha 3', 'Coluna 2 , Linha 3']
+        ];
+    body.appendTable(cells);
+}
+
+
+
+
+
 
