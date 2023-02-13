@@ -44,19 +44,15 @@ function createDocInFolder() {
 //     var body = DocumentApp.openById("1Rtnq-RjTy_38UHIbWUUKL6cFoJ8d8fUrOGqMFmy6HVI");
 //     var stringReplace = body.getBlob().getDataAsString('UTF-8').replace('Item', 'Ponto');
     
-//     return stringReplace;
-    
-        
-      
+//     return stringReplace;   
 // }
+
 
 // testando com id fixo
 function editDocument(){
     
-    
     var body = DocumentApp.openById("1xPhcLo1O4aOGmLYwkKLRemaYSoIJseQdrXy3NKlJEX4").getBody();
     
-
     var title = body.appendParagraph("Relatório 2.0");
     title.setHeading(DocumentApp.ParagraphHeading.TITLE);
 
@@ -78,7 +74,7 @@ function Replace(){
     body.getBody().setText(newText);
 }
 
-function captureRelatorio() {
+function captureRelatorio(){
     var doc = DocumentApp.openById("1xPhcLo1O4aOGmLYwkKLRemaYSoIJseQdrXy3NKlJEX4");
     var text = doc.getBody().getText();
     var searchResult = doc.getBody().findText("Relatório");
@@ -107,6 +103,90 @@ function table(){
     body.appendTable(cells);
 }
 
+function searchLastElement(){
+    var doc = DocumentApp.openById("1xPhcLo1O4aOGmLYwkKLRemaYSoIJseQdrXy3NKlJEX4");
+    Logger.log('Element type: ' + rangeElement.getElement().getType());
+if (rangeElement.isPartial()) {
+  Logger.log('The character range begins at ' + rangeElement.getStartOffset());
+  Logger.log('The character range ends at ' + rangeElement.getEndOffsetInclusive());
+} else {
+  Logger.log('The entire range element is included.');
+}
+
+}
+
+function getLastParagraphStyle(){
+    var doc = DocumentApp.openById("1xPhcLo1O4aOGmLYwkKLRemaYSoIJseQdrXy3NKlJEX4");
+    var paragraphs = doc.getBody().getParagraphs();
+    var lastParagraph = paragraphs[paragraphs.length - 1];
+    var style = lastParagraph.getTextAlignment();
+    
+    if (style) {
+      Logger.log(style);
+      return style;
+    } else {
+      Logger.log('O estilo de alinhamento de texto não está definido para o último parágrafo.');
+      return 'O estilo de alinhamento de texto não está definido para o último parágrafo.';
+    }
+}
+  
+function boldAllParagraphs(){
+    var documentId = "1xPhcLo1O4aOGmLYwkKLRemaYSoIJseQdrXy3NKlJEX4";
+    var paragraphs = DocumentApp.openById(documentId).getBody().getParagraphs();
+    paragraphs.forEach(function(paragraph) {
+      paragraph.setBold(true);
+    });
+}
+
+function removeBoldFromAllParagraphs(){
+    var documentId = "1xPhcLo1O4aOGmLYwkKLRemaYSoIJseQdrXy3NKlJEX4";
+    var paragraphs = DocumentApp.openById(documentId).getBody().getParagraphs();
+    paragraphs.forEach(function(paragraph) {
+      paragraph.setBold(false);
+    });
+}
+  
+function createAndGetSpreadsheet(){
+    var spreadsheet = SpreadsheetApp.create("Nova Planilha");
+    var spreadsheetUrl = spreadsheet.getUrl();
+    Logger.log("A URL da nova planilha é: " + spreadsheetUrl);
+    return spreadsheetUrl;
+}
+
+function addDataToSpreadsheet(){
+    var spreadsheet = SpreadsheetApp.openById("16Qet5wuCKu6d90DTzMklW7gseFT9be3-mHG-R5L5AJk");
+    var sheet = spreadsheet.getActiveSheet();
+    sheet.appendRow(["nome", "idade", "cidade"]);
+}
+  
+function createForm(){
+    var form = FormApp.create('Formulário de Captura de Dados');
+    
+    form.addTextItem()
+        .setTitle('ID do Usuário')
+        .setRequired(true);
+    
+    form.addTextItem()
+        .setTitle('Nome')
+        .setRequired(true);
+    
+    form.addTextItem()
+        .setTitle('Email')
+        .setRequired(true);
+    
+    form.addTextItem()
+        .setTitle('CPF')
+        .setRequired(true);
+    
+    var sheet = SpreadsheetApp.create('Planilha de Dados do Usuário');
+    form.setDestination(FormApp.DestinationType.SPREADSHEET, sheet.getId());
+    
+    Logger.log('Formulário criado com sucesso: ' + form.getEditUrl());
+}
+  
+
+  
+  
 
 
 
