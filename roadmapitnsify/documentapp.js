@@ -49,21 +49,27 @@ function createDocInFolder() {
 
 
 // testando com id fixo
-function editDocument(){
-    
-    var body = DocumentApp.openById("1xPhcLo1O4aOGmLYwkKLRemaYSoIJseQdrXy3NKlJEX4").getBody();
-    
-    var title = body.appendParagraph("Relatório 2.0");
-    title.setHeading(DocumentApp.ParagraphHeading.TITLE);
-
-    var par1 = body.appendParagraph("Item 1");
-    body.appendParagraph("Item 2");
-    body.appendParagraph("Item 3");
-    par1.setHeading(DocumentApp.ParagraphHeading.NORMAL);
-
-    var par2 = body.appendParagraph("Este é um relatório automatizado, gerado pelo Google Apps Script.");
-    par2.setHeading(DocumentApp.ParagraphHeading.HEADING6);
-}
+function editDocument() {
+    try {
+      const doc = DocumentApp.openById("1xPhcLo1O4aOGmLYwkKLRemaYSoIJseQdrXy3NKlJEX4");
+      const body = doc.getBody();
+      
+      const title = body.insertParagraph(0, "Relatório 2.0");
+      title.setHeading(DocumentApp.ParagraphHeading.TITLE);
+  
+      const items = ["Item 1", "Item 2", "Item 3"];
+      for (let i = 0; i < items.length; i++) {
+        list = body.appendListItem(items[i]);
+        list.setGlyphType(DocumentApp.GlyphType.BULLET);
+      }
+  
+      const description = body.appendParagraph("Este é um relatório automatizado, gerado pelo Google Apps Script.");
+      description.setHeading(DocumentApp.ParagraphHeading.HEADING6);
+    } catch (error) {
+      Logger.log("Erro ao editar o documento: " + error.message);
+    }
+  }
+  
 
 function Replace(){ 
     var body = DocumentApp.openById("1xPhcLo1O4aOGmLYwkKLRemaYSoIJseQdrXy3NKlJEX4");
