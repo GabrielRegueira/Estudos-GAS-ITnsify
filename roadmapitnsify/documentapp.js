@@ -189,6 +189,14 @@ function createForm(){
     
     Logger.log('Formulário criado com sucesso: ' + form.getEditUrl());
 }
+
+function readFirstRow(){
+    var sheetId = '1PZkIFbtrvfnOhbBuaaqmUDU9NqaRkjBy4ee6cCcfJi8';
+    var sheet = SpreadsheetApp.openById(sheetId).getActiveSheet();
+    var range = sheet.getRange(2, 2, 2, 5); 
+    var data = range.getValues();
+    Logger.log(data);
+}
   
 
   
